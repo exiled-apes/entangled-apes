@@ -1,0 +1,146 @@
+Beginning the upload for 518 (png+json) pairs
+started at: 1639365375957
+wallet public key: 48sM2TNCP5Yjxn3ZgFSgGhYTC7ZNqaMN4UtwSB4WprRt
+USING CUSTOM URL https://ssc-dao.genesysgo.net
+Processing file: 0, 0.png
+initializing config
+initialized config for a candy machine with publickey: A5b135QvvDLk8Y8GbwUifXHrMXjEmeGoEjQ2nVNyoxGp
+Writing indices 0-9
+Writing indices 10-19
+Writing indices 20-29
+Writing indices 30-39
+Writing indices 40-49
+Writing indices 50-59
+Writing indices 60-69
+Writing indices 70-79
+Writing indices 80-89
+Transaction simulation failed: Blockhash not found 
+    
+Translating error SendTransactionError: failed to send transaction: Transaction simulation failed: Blockhash not found
+    at Connection.sendEncodedTransaction (/snapshot/js/node_modules/@solana/web3.js/lib/index.cjs.js:4863:13)
+    at processTicksAndRejections (internal/process/task_queues.js:95:5)
+    at async Connection.sendRawTransaction (/snapshot/js/node_modules/@solana/web3.js/lib/index.cjs.js:4822:20)
+    at async sendAndConfirmRawTransaction (/snapshot/js/node_modules/@solana/web3.js/lib/index.cjs.js:6649:21)
+    at async Provider.send (/snapshot/js/packages/cli/node_modules/@project-serum/anchor/dist/cjs/provider.js:85:22)
+    at async Object.rpc [as addConfigLines] (/snapshot/js/packages/cli/node_modules/@project-serum/anchor/dist/cjs/program/namespace/rpc.js:11:31) {
+  logs: []
+}
+saving config line 80-89 failed SendTransactionError: failed to send transaction: Transaction simulation failed: Blockhash not found
+    at Connection.sendEncodedTransaction (/snapshot/js/node_modules/@solana/web3.js/lib/index.cjs.js:4863:13)
+    at processTicksAndRejections (internal/process/task_queues.js:95:5)
+    at async Connection.sendRawTransaction (/snapshot/js/node_modules/@solana/web3.js/lib/index.cjs.js:4822:20)
+    at async sendAndConfirmRawTransaction (/snapshot/js/node_modules/@solana/web3.js/lib/index.cjs.js:6649:21)
+    at async Provider.send (/snapshot/js/packages/cli/node_modules/@project-serum/anchor/dist/cjs/provider.js:85:22)
+    at async Object.rpc [as addConfigLines] (/snapshot/js/packages/cli/node_modules/@project-serum/anchor/dist/cjs/program/namespace/rpc.js:11:31) {
+  logs: []
+}
+Writing indices 90-99
+Writing indices 100-109
+Writing indices 110-119
+Writing indices 120-129
+Writing indices 130-139
+Writing indices 140-149
+Writing indices 150-159
+Writing indices 160-169
+Writing indices 170-179
+Writing indices 180-189
+Transaction simulation failed: Blockhash not found 
+    
+Translating error SendTransactionError: failed to send transaction: Transaction simulation failed: Blockhash not found
+    at Connection.sendEncodedTransaction (/snapshot/js/node_modules/@solana/web3.js/lib/index.cjs.js:4863:13)
+    at processTicksAndRejections (internal/process/task_queues.js:95:5)
+    at async Connection.sendRawTransaction (/snapshot/js/node_modules/@solana/web3.js/lib/index.cjs.js:4822:20)
+    at async sendAndConfirmRawTransaction (/snapshot/js/node_modules/@solana/web3.js/lib/index.cjs.js:6649:21)
+    at async Provider.send (/snapshot/js/packages/cli/node_modules/@project-serum/anchor/dist/cjs/provider.js:85:22)
+    at async Object.rpc [as addConfigLines] (/snapshot/js/packages/cli/node_modules/@project-serum/anchor/dist/cjs/program/namespace/rpc.js:11:31) {
+  logs: []
+}
+saving config line 180-189 failed SendTransactionError: failed to send transaction: Transaction simulation failed: Blockhash not found
+    at Connection.sendEncodedTransaction (/snapshot/js/node_modules/@solana/web3.js/lib/index.cjs.js:4863:13)
+    at processTicksAndRejections (internal/process/task_queues.js:95:5)
+    at async Connection.sendRawTransaction (/snapshot/js/node_modules/@solana/web3.js/lib/index.cjs.js:4822:20)
+    at async sendAndConfirmRawTransaction (/snapshot/js/node_modules/@solana/web3.js/lib/index.cjs.js:6649:21)
+    at async Provider.send (/snapshot/js/packages/cli/node_modules/@project-serum/anchor/dist/cjs/provider.js:85:22)
+    at async Object.rpc [as addConfigLines] (/snapshot/js/packages/cli/node_modules/@project-serum/anchor/dist/cjs/program/namespace/rpc.js:11:31) {
+  logs: []
+}
+Writing indices 190-199
+Writing indices 200-209
+Writing indices 210-219
+Writing indices 220-229
+Writing indices 230-239
+Writing indices 240-249
+Writing indices 250-259
+Transaction simulation failed: Blockhash not found 
+    
+Translating error SendTransactionError: failed to send transaction: Transaction simulation failed: Blockhash not found
+    at Connection.sendEncodedTransaction (/snapshot/js/node_modules/@solana/web3.js/lib/index.cjs.js:4863:13)
+    at processTicksAndRejections (internal/process/task_queues.js:95:5)
+    at async Connection.sendRawTransaction (/snapshot/js/node_modules/@solana/web3.js/lib/index.cjs.js:4822:20)
+    at async sendAndConfirmRawTransaction (/snapshot/js/node_modules/@solana/web3.js/lib/index.cjs.js:6649:21)
+    at async Provider.send (/snapshot/js/packages/cli/node_modules/@project-serum/anchor/dist/cjs/provider.js:85:22)
+    at async Object.rpc [as addConfigLines] (/snapshot/js/packages/cli/node_modules/@project-serum/anchor/dist/cjs/program/namespace/rpc.js:11:31) {
+  logs: []
+}
+saving config line 250-259 failed SendTransactionError: failed to send transaction: Transaction simulation failed: Blockhash not found
+    at Connection.sendEncodedTransaction (/snapshot/js/node_modules/@solana/web3.js/lib/index.cjs.js:4863:13)
+    at processTicksAndRejections (internal/process/task_queues.js:95:5)
+    at async Connection.sendRawTransaction (/snapshot/js/node_modules/@solana/web3.js/lib/index.cjs.js:4822:20)
+    at async sendAndConfirmRawTransaction (/snapshot/js/node_modules/@solana/web3.js/lib/index.cjs.js:6649:21)
+    at async Provider.send (/snapshot/js/packages/cli/node_modules/@project-serum/anchor/dist/cjs/provider.js:85:22)
+    at async Object.rpc [as addConfigLines] (/snapshot/js/packages/cli/node_modules/@project-serum/anchor/dist/cjs/program/namespace/rpc.js:11:31) {
+  logs: []
+}
+Writing indices 260-269
+Writing indices 270-279
+Writing indices 280-289
+Writing indices 290-299
+Writing indices 300-309
+Writing indices 310-319
+Writing indices 320-329
+Writing indices 330-339
+Writing indices 340-349
+Writing indices 350-359
+Writing indices 360-369
+Writing indices 370-379
+Writing indices 380-389
+Writing indices 390-399
+Writing indices 400-409
+Writing indices 410-419
+Writing indices 420-429
+Writing indices 430-439
+Writing indices 440-449
+Writing indices 450-459
+Writing indices 460-469
+Writing indices 470-479
+Writing indices 480-489
+Translating error Error: Transaction was not confirmed in 60.02 seconds. It is unknown if it succeeded or failed. Check signature 28rCLBCGkjYrrcy2yo2WUj4XXtpTjQ8MiUFRX2UCEDk9tpFeYwyULJebCUHtjqmws8rypj4f9s1LE7g3HKRhxJcQ using the Solana Explorer or CLI tools.
+    at Connection.confirmTransaction (/snapshot/js/node_modules/@solana/web3.js/lib/index.cjs.js:3948:13)
+    at async sendAndConfirmRawTransaction (/snapshot/js/node_modules/@solana/web3.js/lib/index.cjs.js:6650:19)
+    at async Provider.send (/snapshot/js/packages/cli/node_modules/@project-serum/anchor/dist/cjs/provider.js:85:22)
+    at async Object.rpc [as addConfigLines] (/snapshot/js/packages/cli/node_modules/@project-serum/anchor/dist/cjs/program/namespace/rpc.js:11:31)
+saving config line 480-489 failed Error: Transaction was not confirmed in 60.02 seconds. It is unknown if it succeeded or failed. Check signature 28rCLBCGkjYrrcy2yo2WUj4XXtpTjQ8MiUFRX2UCEDk9tpFeYwyULJebCUHtjqmws8rypj4f9s1LE7g3HKRhxJcQ using the Solana Explorer or CLI tools.
+    at Connection.confirmTransaction (/snapshot/js/node_modules/@solana/web3.js/lib/index.cjs.js:3948:13)
+    at async sendAndConfirmRawTransaction (/snapshot/js/node_modules/@solana/web3.js/lib/index.cjs.js:6650:19)
+    at async Provider.send (/snapshot/js/packages/cli/node_modules/@project-serum/anchor/dist/cjs/provider.js:85:22)
+    at async Object.rpc [as addConfigLines] (/snapshot/js/packages/cli/node_modules/@project-serum/anchor/dist/cjs/program/namespace/rpc.js:11:31)
+Writing indices 490-499
+ws error: socket hang up
+Writing indices 500-509
+Writing indices 510-517
+Done. Successful = false.
+upload was not successful, rerunning
+wallet public key: 48sM2TNCP5Yjxn3ZgFSgGhYTC7ZNqaMN4UtwSB4WprRt
+USING CUSTOM URL https://ssc-dao.genesysgo.net
+Writing indices 80-89
+Writing indices 180-189
+Writing indices 250-259
+Writing indices 480-489
+Done. Successful = true.
+ended at: 2021-12-13T03:38:26.021Z. time taken: 00:22:10
+Beginning the upload for 518 (png+json) pairs
+started at: 1639367228777
+wallet public key: 48sM2TNCP5Yjxn3ZgFSgGhYTC7ZNqaMN4UtwSB4WprRt
+USING CUSTOM URL https://ssc-dao.genesysgo.net
+Done. Successful = true.
+ended at: 2021-12-13T03:47:09.212Z. time taken: 00:00:00

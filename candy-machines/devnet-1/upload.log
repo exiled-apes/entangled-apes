@@ -1,0 +1,177 @@
+Beginning the upload for 518 (png+json) pairs
+started at: 1639355941321
+wallet public key: 48sM2TNCP5Yjxn3ZgFSgGhYTC7ZNqaMN4UtwSB4WprRt
+USING CUSTOM URL https://psytrbhymqlkfrhudd.dev.genesysgo.net:8899
+Processing file: 0, 0.png
+initializing config
+initialized config for a candy machine with publickey: CXNqZUdLyXVVwjFEM4XVhZPeRuSxiXzMAtA4u8iDuqJy
+Processing file: 6, 103.png
+Processing file: 12, 109.png
+Processing file: 18, 114.png
+Processing file: 24, 12.png
+Processing file: 30, 125.png
+Processing file: 36, 130.png
+Processing file: 42, 136.png
+Processing file: 48, 141.png
+Processing file: 54, 147.png
+Processing file: 60, 152.png
+Processing file: 66, 158.png
+Processing file: 72, 163.png
+signatureUnsubscribe error: Invalid subscription id.
+Processing file: 78, 169.png
+Processing file: 84, 174.png
+Processing file: 90, 18.png
+Processing file: 96, 185.png
+Processing file: 102, 190.png
+Processing file: 108, 196.png
+Processing file: 114, 200.png
+Processing file: 120, 206.png
+Processing file: 126, 211.png
+Processing file: 132, 217.png
+Processing file: 138, 222.png
+Processing file: 144, 228.png
+Processing file: 150, 233.png
+Processing file: 156, 239.png
+Error uploading file 242 Error: No transaction ID for upload: 242
+    at Object.<anonymous> (/snapshot/js/packages/cli/build/helpers/upload/arweave.js:201:31)
+    at step (/snapshot/js/packages/cli/build/helpers/upload/arweave.js:52:23)
+    at Object.next (/snapshot/js/packages/cli/build/helpers/upload/arweave.js:33:53)
+    at fulfilled (/snapshot/js/packages/cli/build/helpers/upload/arweave.js:24:58)
+    at runMicrotasks (<anonymous>)
+    at processTicksAndRejections (internal/process/task_queues.js:95:5)
+Processing file: 162, 244.png
+Processing file: 168, 25.png
+Processing file: 174, 255.png
+Processing file: 180, 260.png
+Processing file: 186, 266.png
+Processing file: 192, 271.png
+Processing file: 198, 277.png
+Processing file: 204, 282.png
+Processing file: 210, 288.png
+Processing file: 216, 293.png
+Processing file: 222, 299.png
+Processing file: 228, 303.png
+Processing file: 234, 309.png
+Processing file: 240, 314.png
+Processing file: 246, 32.png
+Processing file: 252, 325.png
+Processing file: 258, 330.png
+Processing file: 264, 336.png
+Processing file: 270, 341.png
+Processing file: 276, 347.png
+Processing file: 282, 352.png
+Processing file: 288, 358.png
+Processing file: 294, 363.png
+Processing file: 300, 369.png
+Processing file: 306, 374.png
+Processing file: 312, 38.png
+Processing file: 318, 385.png
+Processing file: 324, 390.png
+Processing file: 330, 396.png
+Processing file: 336, 400.png
+Processing file: 342, 406.png
+Processing file: 348, 411.png
+Processing file: 354, 417.png
+signatureUnsubscribe error: Invalid subscription id.
+Processing file: 360, 422.png
+Processing file: 366, 428.png
+Processing file: 372, 433.png
+Processing file: 378, 439.png
+Processing file: 384, 444.png
+Processing file: 390, 45.png
+Processing file: 396, 455.png
+Processing file: 402, 460.png
+Processing file: 408, 466.png
+Processing file: 414, 471.png
+Processing file: 420, 477.png
+Processing file: 426, 482.png
+Processing file: 432, 488.png
+Processing file: 438, 493.png
+Processing file: 444, 499.png
+Processing file: 450, 503.png
+Processing file: 456, 509.png
+Processing file: 462, 514.png
+Processing file: 468, 54.png
+Processing file: 474, 6.png
+Processing file: 480, 65.png
+Processing file: 486, 70.png
+Processing file: 492, 76.png
+Processing file: 498, 81.png
+Processing file: 504, 87.png
+Processing file: 510, 92.png
+Processing file: 516, 98.png
+Writing indices 0-9
+Writing indices 10-19
+Writing indices 20-29
+Writing indices 30-39
+Writing indices 40-49
+Writing indices 50-59
+Writing indices 60-69
+Writing indices 70-79
+Writing indices 80-89
+Writing indices 90-99
+Writing indices 100-109
+Writing indices 110-119
+Writing indices 120-129
+Writing indices 130-139
+Writing indices 140-149
+Writing indices 150-159
+Writing indices 160-169
+Writing indices 170-179
+Writing indices 180-189
+Writing indices 190-199
+Writing indices 200-209
+Writing indices 210-219
+Writing indices 220-229
+Writing indices 230-239
+Writing indices 240-250
+Writing indices 251-260
+Writing indices 261-270
+Writing indices 271-280
+Writing indices 281-290
+Writing indices 291-300
+Writing indices 301-310
+Writing indices 311-320
+Writing indices 321-330
+Writing indices 331-340
+Writing indices 341-350
+Writing indices 351-360
+Writing indices 361-370
+Writing indices 371-380
+Writing indices 381-390
+Writing indices 391-400
+Writing indices 401-410
+Writing indices 411-420
+Writing indices 421-430
+Writing indices 431-440
+Writing indices 441-450
+Writing indices 451-460
+Writing indices 461-470
+Writing indices 471-480
+Writing indices 481-490
+Writing indices 491-500
+Writing indices 501-510
+Writing indices 511-517
+Done. Successful = false.
+upload was not successful, rerunning
+wallet public key: 48sM2TNCP5Yjxn3ZgFSgGhYTC7ZNqaMN4UtwSB4WprRt
+USING CUSTOM URL https://psytrbhymqlkfrhudd.dev.genesysgo.net:8899
+Processing file: 160, 242.png
+Writing indices 240-249
+Translating error Error: Transaction was not confirmed in 59.97 seconds. It is unknown if it succeeded or failed. Check signature 5pqrk1gDqjptUhVW93cUhLDE5tH5xgtA5Y6S6Jo3iJBcJzhj7QtcZcuXiEHghRmgu51CTN4Bch1izVUGcqViqN19 using the Solana Explorer or CLI tools.
+    at Connection.confirmTransaction (/snapshot/js/node_modules/@solana/web3.js/lib/index.cjs.js:3948:13)
+    at async sendAndConfirmRawTransaction (/snapshot/js/node_modules/@solana/web3.js/lib/index.cjs.js:6650:19)
+    at async Provider.send (/snapshot/js/packages/cli/node_modules/@project-serum/anchor/dist/cjs/provider.js:85:22)
+    at async Object.rpc [as addConfigLines] (/snapshot/js/packages/cli/node_modules/@project-serum/anchor/dist/cjs/program/namespace/rpc.js:11:31)
+saving config line 240-249 failed Error: Transaction was not confirmed in 59.97 seconds. It is unknown if it succeeded or failed. Check signature 5pqrk1gDqjptUhVW93cUhLDE5tH5xgtA5Y6S6Jo3iJBcJzhj7QtcZcuXiEHghRmgu51CTN4Bch1izVUGcqViqN19 using the Solana Explorer or CLI tools.
+    at Connection.confirmTransaction (/snapshot/js/node_modules/@solana/web3.js/lib/index.cjs.js:3948:13)
+    at async sendAndConfirmRawTransaction (/snapshot/js/node_modules/@solana/web3.js/lib/index.cjs.js:6650:19)
+    at async Provider.send (/snapshot/js/packages/cli/node_modules/@project-serum/anchor/dist/cjs/provider.js:85:22)
+    at async Object.rpc [as addConfigLines] (/snapshot/js/packages/cli/node_modules/@project-serum/anchor/dist/cjs/program/namespace/rpc.js:11:31)
+Done. Successful = false.
+upload was not successful, rerunning
+wallet public key: 48sM2TNCP5Yjxn3ZgFSgGhYTC7ZNqaMN4UtwSB4WprRt
+USING CUSTOM URL https://psytrbhymqlkfrhudd.dev.genesysgo.net:8899
+Writing indices 240-249
+Done. Successful = true.
+ended at: 2021-12-13T01:35:10.650Z. time taken: 00:56:09

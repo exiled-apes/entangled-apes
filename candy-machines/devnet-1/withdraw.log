@@ -7,3 +7,12 @@ CXNqZUdLyXVVwjFEM4XVhZPeRuSxiXzMAtA4u8iDuqJy has been withdrawn.
 Transaction Signarure: 2W1ab5t4pWXvx6iFeEqeGbPFTPDpe1m7n8oEnLm9swAEVop44MRDwSRZNp2fF4FKhGyp3Ci5GKjqgfUdQSr5QZ2F
 Congratulations, 1 config accounts have been successfully drained.
 Now you rich again, please consider supporting Open Source developers.
+wallet public key: 48sM2TNCP5Yjxn3ZgFSgGhYTC7ZNqaMN4UtwSB4WprRt
+USING CUSTOM URL https://psytrbhymqlkfrhudd.dev.genesysgo.net:8899
+Total Number of Candy Machine Config Accounts to drain 1
+0.86838528 SOL locked up in configs
+WARNING: This command will drain ALL of the Candy Machine config accounts that are owned by your current KeyPair, this will break your Candy Machine if its still in use
+CUZFG1mXx29ApegyvPigFNoLoWvQUE48QdwR5ATUZVgP has been withdrawn. 
+Transaction Signarure: 3kfDUtBCd7BGfAp1Gze2cfrmGviPt1Xu39jVtmYMGkES2mrVJRBzJSZzkoxkfhh5rvDTs1sFGwZpDLoY7wWxTgeF
+Congratulations, 1 config accounts have been successfully drained.
+Now you rich again, please consider supporting Open Source developers.

@@ -1,0 +1,34 @@
+wallet public key: 48sM2TNCP5Yjxn3ZgFSgGhYTC7ZNqaMN4UtwSB4WprRt
+USING CUSTOM URL https://psytrbhymqlkfrhudd.dev.genesysgo.net:8899
+Transaction simulation failed: Error processing Instruction 0: custom program error: 0x139 
+    Program cndyAnrLdpjq1Ssp1z8xxDsB8dxe7u4HL5Nxi2K5WXZ invoke [1]
+    Program 11111111111111111111111111111111 invoke [2]
+    Program 11111111111111111111111111111111 success
+    Program log: Custom program error: 0x139
+    Program cndyAnrLdpjq1Ssp1z8xxDsB8dxe7u4HL5Nxi2K5WXZ consumed 18793 of 200000 compute units
+    Program cndyAnrLdpjq1Ssp1z8xxDsB8dxe7u4HL5Nxi2K5WXZ failed: custom program error: 0x139
+Translating error SendTransactionError: failed to send transaction: Transaction simulation failed: Error processing Instruction 0: custom program error: 0x139
+    at Connection.sendEncodedTransaction (/snapshot/js/node_modules/@solana/web3.js/lib/index.cjs.js:4863:13)
+    at processTicksAndRejections (internal/process/task_queues.js:95:5)
+    at async Connection.sendRawTransaction (/snapshot/js/node_modules/@solana/web3.js/lib/index.cjs.js:4822:20)
+    at async sendAndConfirmRawTransaction (/snapshot/js/node_modules/@solana/web3.js/lib/index.cjs.js:6649:21)
+    at async Provider.send (/snapshot/js/packages/cli/node_modules/@project-serum/anchor/dist/cjs/provider.js:85:22)
+    at async Object.rpc [as initializeCandyMachine] (/snapshot/js/packages/cli/node_modules/@project-serum/anchor/dist/cjs/program/namespace/rpc.js:11:31) {
+  logs: [
+    'Program cndyAnrLdpjq1Ssp1z8xxDsB8dxe7u4HL5Nxi2K5WXZ invoke [1]',
+    'Program 11111111111111111111111111111111 invoke [2]',
+    'Program 11111111111111111111111111111111 success',
+    'Program log: Custom program error: 0x139',
+    'Program cndyAnrLdpjq1Ssp1z8xxDsB8dxe7u4HL5Nxi2K5WXZ consumed 18793 of 200000 compute units',
+    'Program cndyAnrLdpjq1Ssp1z8xxDsB8dxe7u4HL5Nxi2K5WXZ failed: custom program error: 0x139'
+  ]
+}
+(node:82808) UnhandledPromiseRejectionWarning: Error: 313: Number of config lines must be at least number of items available
+    at Function.parse (/snapshot/js/packages/cli/node_modules/@project-serum/anchor/dist/cjs/error.js:35:20)
+    at Object.rpc [as initializeCandyMachine] (/snapshot/js/packages/cli/node_modules/@project-serum/anchor/dist/cjs/program/namespace/rpc.js:16:58)
+    at processTicksAndRejections (internal/process/task_queues.js:95:5)
+(Use `metaplex --trace-warnings ...` to show where the warning was created)
+(node:82808) UnhandledPromiseRejectionWarning: Unhandled promise rejection. This error originated either by throwing inside of an async function without a catch block, or by rejecting a promise which was not handled with .catch(). To terminate the node process on unhandled promise rejection, use the CLI flag `--unhandled-rejections=strict` (see https://nodejs.org/api/cli.html#cli_unhandled_rejections_mode). (rejection id: 1)
+(node:82808) [DEP0018] DeprecationWarning: Unhandled promise rejections are deprecated. In the future, promise rejections that are not handled will terminate the Node.js process with a non-zero exit code.
+wallet public key: 48sM2TNCP5Yjxn3ZgFSgGhYTC7ZNqaMN4UtwSB4WprRt
+USING CUSTOM URL https://psytrbhymqlkfrhudd.dev.genesysgo.net:8899

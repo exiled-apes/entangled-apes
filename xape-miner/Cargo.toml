@@ -1,0 +1,19 @@
+[package]
+authors = ["Levi Cook <levicook@gmail.com>"]
+edition = "2021"
+name = "xape-miner"
+version = "0.1.0"
+
+[dependencies]
+anchor-lang = "0.14.0"
+borsh = "0.9.1"
+gumdrop = { version = "0.8.0", features = ["default_expr"] }
+rusqlite = "0.26.0"
+
+solana-account-decoder = "1.7.11"
+solana-client = "1.7.10"
+solana-sdk = "1.7.10"
+solana-transaction-status = "1.7.10"
+
+nft-candy-machine = { git = "https://github.com/metaplex-foundation/metaplex" }
+metaplex-token-metadata = { git = "https://github.com/metaplex-foundation/metaplex" }

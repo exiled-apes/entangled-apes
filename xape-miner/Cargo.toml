@@ -7,13 +7,14 @@ version = "0.1.0"
 [dependencies]
 anchor-lang = "0.14.0"
 borsh = "0.9.1"
-gumdrop = { version = "0.8.0", features = ["default_expr"] }
+gumdrop = "0.8.0"
+metaplex-token-metadata = { git = "https://github.com/metaplex-foundation/metaplex" }
+nft-candy-machine = { git = "https://github.com/metaplex-foundation/metaplex" }
+reqwest = "0.11.7"
 rusqlite = "0.26.0"
-
+serde = "1.0.131"
 solana-account-decoder = "1.7.11"
 solana-client = "1.7.10"
 solana-sdk = "1.7.10"
 solana-transaction-status = "1.7.10"
-
-nft-candy-machine = { git = "https://github.com/metaplex-foundation/metaplex" }
-metaplex-token-metadata = { git = "https://github.com/metaplex-foundation/metaplex" }
+tokio = "1.15.0"

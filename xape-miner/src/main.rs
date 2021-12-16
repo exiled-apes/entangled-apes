@@ -1,6 +1,11 @@
+use borsh::de::BorshDeserialize;
 use gumdrop::Options;
+use metaplex_token_metadata::state::Metadata;
 use rusqlite::{params, Connection};
-use std::{fmt::Debug, error::Error};
+use serde::Deserialize;
+use solana_client::rpc_client::RpcClient;
+use solana_sdk::{account::ReadableAccount, pubkey::Pubkey};
+use std::{error::Error, fmt::Debug, fs::File, io::BufRead, io::BufReader};
 
 #[derive(Clone, Debug, Options)]
 struct Args {
@@ -12,57 +17,203 @@ struct Args {
 enum Command {
     #[options(help = "load the mint files into sqlite")]
     LoadMints(LoadMints),
-    #[options(help = "load metadata for all mints into sqlite")]
-    MineMetas(MineMetas),
+    #[options(help = "populate entanglements table from mints")]
+    LoadEntanglements(LoadEntanglements),
 }
 
 #[derive(Clone, Debug, Options)]
 struct LoadMints {
-    #[options(help = "slite db path")]
-    db_path: String,
+    #[options(help = "sqlite db path")]
+    db: String,
     #[options(help = "mirc mints file")]
-    mirc_mint_file: String,
+    mirc_file: String,
     #[options(help = "mono mints file")]
-    mono_mint_file: String,
+    mono_file: String,
+    #[options(help = "rpc server")]
+    rpc: String,
 }
 
 #[derive(Clone, Debug, Options)]
-struct MineMetas {}
+struct LoadEntanglements {
+    #[options(help = "sqlite db path")]
+    db: String,
+}
 
-fn main() -> Result<(), Box<dyn Error>> {
+#[derive(Clone, Debug, Deserialize)]
+struct JSONMeta {
+    name: String,
+    attributes: Vec<JSONAttr>,
+}
+
+#[derive(Clone, Debug, Deserialize)]
+struct JSONAttr {
+    value: String,
+    trait_type: String,
+}
+
+#[derive(Debug)]
+struct MintRow {
+    mint_address: String,
+    meta_address: String,
+    meta_name: String,
+    meta_uri: String,
+    inmate_number: String,
+}
+
+#[tokio::main]
+async fn main() -> Result<(), Box<dyn Error>> {
     let args = Args::parse_args_default_or_exit();
     match args.clone().command {
         None => todo!(),
         Some(command) => match command {
-            Command::LoadMints(opts) => load_mints(args, opts),
-            Command::MineMetas(opts) => mine_metas(args, opts),
+            Command::LoadMints(opts) => load_mints(args, opts).await,
+            Command::LoadEntanglements(opts) => load_entanglements(args, opts).await,
+            // Command::MineMetas(opts) => mine_metas(args, opts),
         },
     }
 }
 
-fn load_mints(_args: Args, opts: LoadMints) -> Result<(), Box<dyn Error>> {
-    let db = Connection::open(opts.db_path)?;
+async fn load_entanglements(_args: Args, opts: LoadEntanglements) -> Result<(), Box<dyn Error>> {
+    let db = Connection::open(opts.db)?;
+    db.execute("DROP TABLE IF EXISTS entanglements", params![])?;
     db.execute(
-        "create table if not exists mirc_mints (
-             token_address text primary key,
-             metadata_address text unique
+        "CREATE TABLE entanglements (
+             mirc_mint_address text primary key,
+             mono_mint_address text unique
          )",
         params![],
     )?;
-    db.execute(
-        "create table if not exists mono_mints (
-             token_address text primary key,
-             metadata_address text unique
-         )",
-        params![],
+
+    let mut stmt = db.prepare(
+        "SELECT mint_address, meta_address, meta_name, meta_uri, inmate_number
+        FROM mirc_mints
+        ORDER BY mint_address",
     )?;
+
+    let mirc_mint_iter = stmt.query_map([], |row| try_mint_row(row))?;
+    for mirc_row in mirc_mint_iter {
+        let mirc_row = mirc_row.unwrap();
+
+        let count: Result<u8, rusqlite::Error> = db.query_row(
+            "SELECT COUNT(*) FROM mono_mints WHERE inmate_number in ?1",
+            params![mirc_row.inmate_number],
+            |row| row.get(0),
+        );
+
+        let count = count.unwrap();
+        eprintln!("{:?}", count);
+    }
 
     Ok(())
 }
 
-fn mine_metas(_args: Args, _opts: MineMetas) -> Result<(), Box<dyn Error>> {
-    println!("{}", "mine_metas");
-    // let client = RpcClient::new(app_options.rpc_url);
+async fn load_mints(_args: Args, opts: LoadMints) -> Result<(), Box<dyn Error>> {
+    let rpc = RpcClient::new(opts.rpc);
+    let db = Connection::open(opts.db)?;
+
+    db.execute(
+        "CREATE TABLE mirc_mints (
+             mint_address text primary key,
+             meta_address text unique,
+             meta_name text,
+             meta_uri text,
+             inmate_number text
+         )",
+        params![],
+    )?;
+    let mirc_file = File::open(opts.mirc_file)?;
+    let mirc_reader = BufReader::new(mirc_file);
+    for line in mirc_reader.lines() {
+        let mint_address = line.unwrap().parse()?;
+        let meta_address = find_metadata_address(mint_address);
+        let metadata = rpc.get_account(&meta_address)?;
+        let metadata = Metadata::deserialize(&mut metadata.data())?;
+
+        let jm = reqwest::get(metadata.data.clone().uri)
+            .await?
+            .json::<JSONMeta>()
+            .await?;
+
+        let mut inmate_number = "".to_string();
+        for attribute in jm.attributes {
+            if attribute.trait_type == "Inmate number" {
+                inmate_number = attribute.value;
+            }
+        }
+        db.execute(
+            "INSERT INTO mirc_mints
+            (mint_address, meta_address, meta_name, meta_uri, inmate_number) values
+            (          ?1,           ?2,        ?3,       ?4,            ?5)",
+            params![
+                mint_address.to_string(),
+                meta_address.to_string(),
+                metadata.data.name,
+                metadata.data.uri,
+                inmate_number,
+            ],
+        )?;
+    }
+
+    db.execute(
+        "CREATE TABLE mono_mints (
+             mint_address text primary key,
+             meta_address text unique,
+             meta_name text,
+             meta_uri text,
+             inmate_number text
+         )",
+        params![],
+    )?;
+    let mono_file = File::open(opts.mono_file)?;
+    let mono_reader = BufReader::new(mono_file);
+    for line in mono_reader.lines() {
+        let mint_address = line.unwrap().parse()?;
+        let meta_address = find_metadata_address(mint_address);
+        let metadata = rpc.get_account(&meta_address)?;
+        let metadata = Metadata::deserialize(&mut metadata.data())?;
+        let inmate_number = metadata.data.name.strip_prefix("Degen Ape #").unwrap_or("");
+
+        db.execute(
+            "INSERT INTO mono_mints
+            (mint_address, meta_address, meta_name, meta_uri, inmate_number) values
+            (          ?1,           ?2,        ?3,       ?4,            ?5)",
+            params![
+                mint_address.to_string(),
+                meta_address.to_string(),
+                metadata.data.name,
+                metadata.data.uri,
+                inmate_number,
+            ],
+        )?;
+    }
 
     Ok(())
+}
+
+fn find_metadata_address(mint: Pubkey) -> Pubkey {
+    let (metadata, _bump) = Pubkey::find_program_address(
+        &[
+            metaplex_token_metadata::state::PREFIX.as_bytes(),
+            metaplex_token_metadata::id().as_ref(),
+            mint.as_ref(),
+        ],
+        &metaplex_token_metadata::id(),
+    );
+    metadata
+}
+
+
+fn try_mint_row(row: &rusqlite::Row) -> Result<MintRow, rusqlite::Error> {
+    let mint_row = MintRow {
+        mint_address: row.get(0)?,
+        meta_address: row.get(1)?,
+        meta_name: row.get(2)?,
+        meta_uri: row.get(3)?,
+        inmate_number: row.get(4)?,
+    };
+    Ok(MintRow {
+        meta_name: mint_row.meta_name.trim_matches(char::from(0)).to_string(),
+        meta_uri: mint_row.meta_uri.trim_matches(char::from(0)).to_string(),
+        ..mint_row
+    })
 }

@@ -1,3 +1,4 @@
 assets
 .log
 .cache
+*.db

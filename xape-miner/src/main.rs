@@ -86,23 +86,40 @@ async fn load_entanglements(_args: Args, opts: LoadEntanglements) -> Result<(), 
 
     let mut stmt = db.prepare(
         "SELECT mint_address, meta_address, meta_name, meta_uri, inmate_number
-        FROM mirc_mints
-        ORDER BY mint_address",
+            FROM mirc_mints ORDER BY mint_address",
     )?;
 
     let mirc_mint_iter = stmt.query_map([], |row| try_mint_row(row))?;
     for mirc_row in mirc_mint_iter {
         let mirc_row = mirc_row.unwrap();
-
-        let count: Result<u8, rusqlite::Error> = db.query_row(
-            "SELECT COUNT(*) FROM mono_mints WHERE inmate_number in ?1",
+        let mono_row = db.query_row(
+            "SELECT mint_address, meta_address, meta_name, meta_uri, inmate_number
+                FROM mono_mints
+                WHERE inmate_number like ?1
+            ",
             params![mirc_row.inmate_number],
-            |row| row.get(0),
+            |row| try_mint_row(row),
         );
 
-        let count = count.unwrap();
-        eprintln!("{:?}", count);
+        match mono_row {
+            Ok(mono_row) => {
+                // normal entanglement
+                db.execute(
+                    "INSERT INTO entanglements
+                         (mirc_mint_address, mono_mint_address) values
+                         (               ?1,                ?2)",
+                    params![mirc_row.mint_address, mono_row.mint_address,],
+                )?;
+            }
+            Err(_) => {
+                // skip ghost entanglement
+                // will process these in the next pass
+            }
+        }
     }
+
+    // TODO process ghost entanglements, in order
+    // TODO expect 30 ghost entanglements here
 
     Ok(())
 }
@@ -201,7 +218,6 @@ fn find_metadata_address(mint: Pubkey) -> Pubkey {
     );
     metadata
 }
-
 
 fn try_mint_row(row: &rusqlite::Row) -> Result<MintRow, rusqlite::Error> {
     let mint_row = MintRow {

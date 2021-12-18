@@ -2,3 +2,4 @@ assets
 .log
 .cache
 *.db
+*.db.bak

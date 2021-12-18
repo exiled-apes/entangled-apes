@@ -51,15 +51,6 @@ struct JSONAttr {
     trait_type: String,
 }
 
-#[derive(Debug)]
-struct MintRow {
-    mint_address: String,
-    meta_address: String,
-    meta_name: String,
-    meta_uri: String,
-    inmate_number: String,
-}
-
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn Error>> {
     let args = Args::parse_args_default_or_exit();
@@ -86,8 +77,42 @@ async fn load_entanglements(_args: Args, opts: LoadEntanglements) -> Result<(), 
 
     let mut stmt = db.prepare(
         "SELECT mint_address, meta_address, meta_name, meta_uri, inmate_number
-            FROM mirc_mints ORDER BY mint_address",
+             FROM mirc_mints
+             ORDER BY mint_address",
     )?;
+
+    let mirc_mint_iter = stmt.query_map([], |row| try_mint_row(row))?;
+    for mirc_row in mirc_mint_iter {
+        let mirc_row = mirc_row.unwrap();
+
+        let mono_row = db.query_row(
+            "SELECT mint_address, meta_address, meta_name, meta_uri, inmate_number
+                FROM mono_mints
+                WHERE inmate_number like ?1
+                LIMIT 1
+            ",
+            params![mirc_row.inmate_number],
+            |row| try_mint_row(row),
+        );
+        let mono_row = mono_row.unwrap();
+
+        // normal entanglement
+        db.execute(
+            "INSERT INTO entanglements
+                     (mirc_mint_address, mono_mint_address) values
+                     (               ?1,                ?2)",
+            params![mirc_row.mint_address, mono_row.mint_address,],
+        )?;
+    }
+
+    let mut stmt = db.prepare(
+        "SELECT mint_address, meta_address, meta_name, meta_uri, inmate_number
+             FROM mirc_mints
+             WHERE mint_address NOT IN (SELECT mirc_mint_address FROM entanglements)
+             ORDER BY mint_address",
+    )?;
+
+    // TODO expect 518-30 ghost entanglements here
 
     let mirc_mint_iter = stmt.query_map([], |row| try_mint_row(row))?;
     for mirc_row in mirc_mint_iter {
@@ -95,31 +120,25 @@ async fn load_entanglements(_args: Args, opts: LoadEntanglements) -> Result<(), 
         let mono_row = db.query_row(
             "SELECT mint_address, meta_address, meta_name, meta_uri, inmate_number
                 FROM mono_mints
-                WHERE inmate_number like ?1
+                WHERE mint_address NOT IN (SELECT mono_mint_address FROM entanglements)
+                ORDER BY genesis_order
+                LIMIT 1
             ",
-            params![mirc_row.inmate_number],
+            params![],
             |row| try_mint_row(row),
         );
+        let mono_row = mono_row.unwrap();
 
-        match mono_row {
-            Ok(mono_row) => {
-                // normal entanglement
-                db.execute(
-                    "INSERT INTO entanglements
-                         (mirc_mint_address, mono_mint_address) values
-                         (               ?1,                ?2)",
-                    params![mirc_row.mint_address, mono_row.mint_address,],
-                )?;
-            }
-            Err(_) => {
-                // skip ghost entanglement
-                // will process these in the next pass
-            }
-        }
+        // ghost entanglement
+        db.execute(
+            "INSERT INTO entanglements
+                     (mirc_mint_address, mono_mint_address) values
+                     (               ?1,                ?2)",
+            params![mirc_row.mint_address, mono_row.mint_address,],
+        )?;
     }
 
-    // TODO process ghost entanglements, in order
-    // TODO expect 30 ghost entanglements here
+    // TODO expect 518 entanglements here
 
     Ok(())
 }
@@ -128,6 +147,7 @@ async fn load_mints(_args: Args, opts: LoadMints) -> Result<(), Box<dyn Error>> 
     let rpc = RpcClient::new(opts.rpc);
     let db = Connection::open(opts.db)?;
 
+    db.execute("DROP TABLE IF EXISTS mirc_mints", params![])?;
     db.execute(
         "CREATE TABLE mirc_mints (
              mint_address text primary key,
@@ -171,19 +191,25 @@ async fn load_mints(_args: Args, opts: LoadMints) -> Result<(), Box<dyn Error>> 
         )?;
     }
 
+    db.execute("DROP TABLE IF EXISTS mono_mints", params![])?;
     db.execute(
         "CREATE TABLE mono_mints (
              mint_address text primary key,
              meta_address text unique,
              meta_name text,
              meta_uri text,
-             inmate_number text
+             inmate_number text,
+             genesis_order integer
          )",
         params![],
     )?;
     let mono_file = File::open(opts.mono_file)?;
     let mono_reader = BufReader::new(mono_file);
+
+    let mut genesis_order = 0;
     for line in mono_reader.lines() {
+        genesis_order = genesis_order + 1;
+
         let mint_address = line.unwrap().parse()?;
         let meta_address = find_metadata_address(mint_address);
         let metadata = rpc.get_account(&meta_address)?;
@@ -192,14 +218,15 @@ async fn load_mints(_args: Args, opts: LoadMints) -> Result<(), Box<dyn Error>> 
 
         db.execute(
             "INSERT INTO mono_mints
-            (mint_address, meta_address, meta_name, meta_uri, inmate_number) values
-            (          ?1,           ?2,        ?3,       ?4,            ?5)",
+            (mint_address, meta_address, meta_name, meta_uri, inmate_number, genesis_order) values
+            (          ?1,           ?2,        ?3,       ?4,            5?,            ?6)",
             params![
                 mint_address.to_string(),
                 meta_address.to_string(),
                 metadata.data.name,
                 metadata.data.uri,
                 inmate_number,
+                genesis_order,
             ],
         )?;
     }
@@ -217,6 +244,15 @@ fn find_metadata_address(mint: Pubkey) -> Pubkey {
         &metaplex_token_metadata::id(),
     );
     metadata
+}
+
+#[derive(Debug)]
+struct MintRow {
+    mint_address: String,
+    meta_address: String,
+    meta_name: String,
+    meta_uri: String,
+    inmate_number: String,
 }
 
 fn try_mint_row(row: &rusqlite::Row) -> Result<MintRow, rusqlite::Error> {

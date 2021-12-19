@@ -163,12 +163,14 @@ async fn load_entanglements(opts: LoadEntanglements) -> Result<(), Box<dyn Error
     let blanks_iter = stmt.query_map([], |row| try_blank_row(row))?;
     for blank_row in blanks_iter {
         let blank_row = blank_row.unwrap();
+        let meta_name = format!("ExiledApe {}/518", blank_row.mirc_number);
+
         let mirc_row = db.query_row(
-            "SELECT mint_address, meta_address, meta_name, meta_uri, inmate_number
+            "SELECT mint_address, meta_address, meta_name, meta_uri, inmate_number, image_uri
                  FROM mirc_mints
-                 WHERE meta_name = ?1 
+                 WHERE meta_name like ?1
                  LIMIT 1",
-            params![blank_row.mirc_name,],
+            params![meta_name],
             |row| try_mint_row(row),
         );
         let mirc_row = mirc_row.unwrap();
@@ -218,12 +220,14 @@ fn find_metadata_address(mint: Pubkey) -> Pubkey {
 struct BlankRow {
     mono_mint: String,
     mirc_name: String,
+    mirc_number: u32,
 }
 
 fn try_blank_row(row: &rusqlite::Row) -> Result<BlankRow, rusqlite::Error> {
     Ok(BlankRow {
         mono_mint: row.get(0)?,
         mirc_name: row.get(1)?,
+        mirc_number: row.get(2)?,
     })
 }
 

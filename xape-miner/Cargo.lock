@@ -1934,13 +1934,42 @@ dependencies = [
 ]
 
 [[package]]
+name = "metaplex-token-entangler"
+version = "0.1.0"
+source = "git+https://github.com/metaplex-foundation/metaplex#ae698c158857189e312346cc5e747a7a3e6129ae"
+dependencies = [
+ "anchor-lang 0.17.0",
+ "anchor-spl",
+ "metaplex-token-metadata 0.0.1 (registry+https://github.com/rust-lang/crates.io-index)",
+ "spl-associated-token-account",
+ "spl-token",
+ "thiserror",
+]
+
+[[package]]
 name = "metaplex-token-metadata"
 version = "0.0.1"
-source = "git+https://github.com/metaplex-foundation/metaplex#c1f968f42978dc4c545eceeb6ad488c325d537fc"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "abcc939f0afdc6db054b9998a1292d0a016244b382462e61cfc7c570624982cb"
 dependencies = [
  "arrayref",
  "borsh",
- "metaplex-token-vault",
+ "metaplex-token-vault 0.0.1 (registry+https://github.com/rust-lang/crates.io-index)",
+ "num-derive",
+ "num-traits",
+ "solana-program",
+ "spl-token",
+ "thiserror",
+]
+
+[[package]]
+name = "metaplex-token-metadata"
+version = "0.0.1"
+source = "git+https://github.com/metaplex-foundation/metaplex#ae698c158857189e312346cc5e747a7a3e6129ae"
+dependencies = [
+ "arrayref",
+ "borsh",
+ "metaplex-token-vault 0.0.1 (git+https://github.com/metaplex-foundation/metaplex)",
  "num-derive",
  "num-traits",
  "solana-program",
@@ -1951,7 +1980,21 @@ dependencies = [
 [[package]]
 name = "metaplex-token-vault"
 version = "0.0.1"
-source = "git+https://github.com/metaplex-foundation/metaplex#c1f968f42978dc4c545eceeb6ad488c325d537fc"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "a5211991ba3273df89cd5e0f6f558bc8d7453c87c0546f915b4a319e1541df33"
+dependencies = [
+ "borsh",
+ "num-derive",
+ "num-traits",
+ "solana-program",
+ "spl-token",
+ "thiserror",
+]
+
+[[package]]
+name = "metaplex-token-vault"
+version = "0.0.1"
+source = "git+https://github.com/metaplex-foundation/metaplex#ae698c158857189e312346cc5e747a7a3e6129ae"
 dependencies = [
  "borsh",
  "num-derive",
@@ -2026,18 +2069,6 @@ dependencies = [
  "cfg-if 0.1.10",
  "libc",
  "winapi",
-]
-
-[[package]]
-name = "nft-candy-machine"
-version = "0.1.0"
-source = "git+https://github.com/metaplex-foundation/metaplex#c1f968f42978dc4c545eceeb6ad488c325d537fc"
-dependencies = [
- "anchor-lang 0.17.0",
- "anchor-spl",
- "arrayref",
- "metaplex-token-metadata",
- "spl-token",
 ]
 
 [[package]]
@@ -4172,8 +4203,8 @@ dependencies = [
  "borsh",
  "csv",
  "gumdrop",
- "metaplex-token-metadata",
- "nft-candy-machine",
+ "metaplex-token-entangler",
+ "metaplex-token-metadata 0.0.1 (git+https://github.com/metaplex-foundation/metaplex)",
  "reqwest",
  "rusqlite",
  "serde",

@@ -29,7 +29,7 @@ enum Command {
     #[options(help = "load the mint files into sqlite")]
     LoadMints(LoadMints),
     #[options(help = "populate entanglements table from mints")]
-    LoadEntanglements(LoadEntanglements),
+    PlanEntanglements(PlanEntanglements),
 }
 
 #[derive(Clone, Debug, Options)]
@@ -61,7 +61,7 @@ struct LoadMints {
 }
 
 #[derive(Clone, Debug, Options)]
-struct LoadEntanglements {
+struct PlanEntanglements {
     #[options(help = "sqlite db path")]
     db: String,
 }
@@ -93,9 +93,8 @@ async fn main() -> Result<(), Box<dyn Error>> {
         Some(command) => match command {
             Command::FixGhosts(opts) => fix_ghosts(opts).await,
             Command::LoadBlanks(opts) => load_blanks(opts).await,
-            Command::LoadEntanglements(opts) => load_entanglements(opts).await,
+            Command::PlanEntanglements(opts) => plan_entanglements(opts).await,
             Command::LoadMints(opts) => load_mints(opts).await,
-            // Command::MineMetas(opts) => mine_metas(args, opts),
         },
     }
 }
@@ -206,7 +205,7 @@ async fn load_blanks(opts: LoadBlanks) -> Result<(), Box<dyn Error>> {
     Ok(())
 }
 
-async fn load_entanglements(opts: LoadEntanglements) -> Result<(), Box<dyn Error>> {
+async fn plan_entanglements(opts: PlanEntanglements) -> Result<(), Box<dyn Error>> {
     let db = Connection::open(opts.db)?;
     db.execute("DROP TABLE IF EXISTS entanglements", params![])?;
     db.execute(

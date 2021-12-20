@@ -1,0 +1,60 @@
+Beginning the upload for 4 (png+json) pairs
+started at: 1639970416116
+wallet public key: 48sM2TNCP5Yjxn3ZgFSgGhYTC7ZNqaMN4UtwSB4WprRt
+USING CUSTOM URL https://ssc-dao.genesysgo.net
+Processing file: 0, 0.png
+initializing config
+Transaction simulation failed: Blockhash not found 
+    
+Translating error SendTransactionError: failed to send transaction: Transaction simulation failed: Blockhash not found
+    at Connection.sendEncodedTransaction (/snapshot/js/node_modules/@solana/web3.js/lib/index.cjs.js:4863:13)
+    at processTicksAndRejections (internal/process/task_queues.js:95:5)
+    at async Connection.sendRawTransaction (/snapshot/js/node_modules/@solana/web3.js/lib/index.cjs.js:4822:20)
+    at async sendAndConfirmRawTransaction (/snapshot/js/node_modules/@solana/web3.js/lib/index.cjs.js:6649:21)
+    at async Provider.send (/snapshot/js/packages/cli/node_modules/@project-serum/anchor/dist/cjs/provider.js:85:22)
+    at async Object.rpc [as initializeConfig] (/snapshot/js/packages/cli/node_modules/@project-serum/anchor/dist/cjs/program/namespace/rpc.js:11:31) {
+  logs: []
+}
+Error deploying config to Solana network. SendTransactionError: failed to send transaction: Transaction simulation failed: Blockhash not found
+    at Connection.sendEncodedTransaction (/snapshot/js/node_modules/@solana/web3.js/lib/index.cjs.js:4863:13)
+    at processTicksAndRejections (internal/process/task_queues.js:95:5)
+    at async Connection.sendRawTransaction (/snapshot/js/node_modules/@solana/web3.js/lib/index.cjs.js:4822:20)
+    at async sendAndConfirmRawTransaction (/snapshot/js/node_modules/@solana/web3.js/lib/index.cjs.js:6649:21)
+    at async Provider.send (/snapshot/js/packages/cli/node_modules/@project-serum/anchor/dist/cjs/provider.js:85:22)
+    at async Object.rpc [as initializeConfig] (/snapshot/js/packages/cli/node_modules/@project-serum/anchor/dist/cjs/program/namespace/rpc.js:11:31) {
+  logs: []
+}
+(node:5374) UnhandledPromiseRejectionWarning: Error: failed to send transaction: Transaction simulation failed: Blockhash not found
+    at Connection.sendEncodedTransaction (/snapshot/js/node_modules/@solana/web3.js/lib/index.cjs.js:4863:13)
+    at processTicksAndRejections (internal/process/task_queues.js:95:5)
+    at async Connection.sendRawTransaction (/snapshot/js/node_modules/@solana/web3.js/lib/index.cjs.js:4822:20)
+    at async sendAndConfirmRawTransaction (/snapshot/js/node_modules/@solana/web3.js/lib/index.cjs.js:6649:21)
+    at async Provider.send (/snapshot/js/packages/cli/node_modules/@project-serum/anchor/dist/cjs/provider.js:85:22)
+    at async Object.rpc [as initializeConfig] (/snapshot/js/packages/cli/node_modules/@project-serum/anchor/dist/cjs/program/namespace/rpc.js:11:31)
+(Use `metaplex --trace-warnings ...` to show where the warning was created)
+(node:5374) UnhandledPromiseRejectionWarning: Unhandled promise rejection. This error originated either by throwing inside of an async function without a catch block, or by rejecting a promise which was not handled with .catch(). To terminate the node process on unhandled promise rejection, use the CLI flag `--unhandled-rejections=strict` (see https://nodejs.org/api/cli.html#cli_unhandled_rejections_mode). (rejection id: 1)
+(node:5374) [DEP0018] DeprecationWarning: Unhandled promise rejections are deprecated. In the future, promise rejections that are not handled will terminate the Node.js process with a non-zero exit code.
+Beginning the upload for 4 (png+json) pairs
+started at: 1639970487135
+wallet public key: 48sM2TNCP5Yjxn3ZgFSgGhYTC7ZNqaMN4UtwSB4WprRt
+Processing file: 0, 0.png
+initializing config
+initialized config for a candy machine with publickey: B4hfyCdC2gfiWEC5QwSYNKAgh4rRdqS5tZ5spSFgKgLX
+Processing file: 1, 1.png
+Processing file: 2, 2.png
+Processing file: 3, 3.png
+Writing indices 0-3
+Done. Successful = true.
+ended at: 2021-12-20T03:22:23.375Z. time taken: 00:00:56
+Beginning the upload for 4 (png+json) pairs
+started at: 1639972042476
+wallet public key: 48sM2TNCP5Yjxn3ZgFSgGhYTC7ZNqaMN4UtwSB4WprRt
+Processing file: 0, 0.png
+initializing config
+initialized config for a candy machine with publickey: DQbotRFwbv5TkhSp87rmgdKPFsjvBo4t7vyHGbvVUzD6
+Processing file: 1, 1.png
+Processing file: 2, 2.png
+Processing file: 3, 3.png
+Writing indices 0-3
+Done. Successful = true.
+ended at: 2021-12-20T03:48:08.351Z. time taken: 00:00:45

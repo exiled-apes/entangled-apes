@@ -1,10 +1,16 @@
 use borsh::de::BorshDeserialize;
 use gumdrop::Options;
-use metaplex_token_metadata::state::Metadata;
+use metaplex_token_metadata::{
+    instruction::update_metadata_accounts,
+    state::{Data, Metadata},
+};
 use rusqlite::{params, Connection};
 use serde::Deserialize;
 use solana_client::rpc_client::RpcClient;
-use solana_sdk::{account::ReadableAccount, pubkey::Pubkey};
+use solana_sdk::{
+    account::ReadableAccount, pubkey::Pubkey, signature::read_keypair_file, signer::Signer,
+    transaction::Transaction,
+};
 use std::{error::Error, fmt::Debug, fs::File, io::BufRead, io::BufReader};
 use tokio::join;
 
@@ -16,12 +22,22 @@ struct Args {
 
 #[derive(Clone, Debug, Options)]
 enum Command {
+    #[options(help = "fix some busted ghosts")]
+    FixGhosts(FixGhosts),
     #[options(help = "load the mint files into sqlite")]
     LoadBlanks(LoadBlanks),
     #[options(help = "load the mint files into sqlite")]
     LoadMints(LoadMints),
     #[options(help = "populate entanglements table from mints")]
     LoadEntanglements(LoadEntanglements),
+}
+
+#[derive(Clone, Debug, Options)]
+struct FixGhosts {
+    #[options(help = "rpc server")]
+    rpc: String,
+    #[options(help = "update authority")]
+    update_authority: String,
 }
 
 #[derive(Clone, Debug, Options)]
@@ -75,12 +91,89 @@ async fn main() -> Result<(), Box<dyn Error>> {
     match args.clone().command {
         None => todo!(),
         Some(command) => match command {
+            Command::FixGhosts(opts) => fix_ghosts(opts).await,
             Command::LoadBlanks(opts) => load_blanks(opts).await,
             Command::LoadEntanglements(opts) => load_entanglements(opts).await,
             Command::LoadMints(opts) => load_mints(opts).await,
             // Command::MineMetas(opts) => mine_metas(args, opts),
         },
     }
+}
+
+async fn fix_ghosts(opts: FixGhosts) -> Result<(), Box<dyn Error>> {
+    let rpc = RpcClient::new(opts.rpc);
+
+    let fixes = [
+        (
+            "C1zuSLjxYW3gSekUAMeSVt74dn826EUHoP1Pfjm8sh5Y",
+            "https://arweave.net/p7_PP3_b610qH7o0sM-n7twSpX94lF9TLwRHaSkKrYE",
+        ),
+        (
+            "4Q1TGHyQBnYDUKuFwQqYDkiCEDkh4FSrSpUp9rGEg7Kk",
+            "https://arweave.net/pMFdkuXKf9P6JrkHIeZuqNlcC-kIImc6y0NzZqRMj7s",
+        ),
+        (
+            "4GFfjpBYVoHcmnGbhqSXkS7CHHg3dWGSGV2G66PgRxkr",
+            "https://arweave.net/0erYimpankdX2yUCvkXEyoaxmCI1-dMAxIDtE-lhyjU",
+        ),
+        (
+            "7qtG5sLk7Z3uU4Bfy8hwuTt9mUWqZW3y9eASQsJDBbtV",
+            "https://arweave.net/1r_twlSBjrOZXq3lhEKYZvSiuKNugVcUNb1yIH5PaLU",
+        ),
+    ];
+
+    for (mint_address, meta_uri) in fixes {
+        let mint_address = mint_address.parse().unwrap();
+        let meta_address = find_metadata_address(mint_address);
+        let metadata = rpc.get_account(&meta_address)?;
+        let metadata = Metadata::deserialize(&mut metadata.data())?;
+
+        let update_authority = read_keypair_file(opts.update_authority.clone())?;
+
+        if {
+            let chain_uri = metadata.data.uri.trim_matches(char::from(0));
+            chain_uri != meta_uri
+        } {
+            eprintln!(" got {}\nwant {}", metadata.data.uri, meta_uri);
+
+            let (recent_blockhash, _) = rpc.get_recent_blockhash().unwrap();
+
+            let data = Data {
+                uri: meta_uri.to_string(),
+                ..metadata.data
+            };
+
+            let instruction = update_metadata_accounts(
+                metaplex_token_metadata::id(),
+                meta_address,
+                metadata.update_authority,
+                None,
+                Some(data),
+                None,
+            );
+
+            let instructions = &[instruction];
+
+            let signing_keypairs = &[&update_authority];
+
+            let tx = Transaction::new_signed_with_payer(
+                instructions,
+                Some(&update_authority.pubkey()),
+                signing_keypairs,
+                recent_blockhash,
+            );
+
+            // let res = rpc.simulate_transaction(&tx);
+            // let res = res.expect("could not simulate tx");
+            // eprintln!("{:?}", res);
+
+            let res = rpc.send_and_confirm_transaction(&tx);
+            let sig = res.expect("could not confirm tx");
+            eprintln!("{:?}", sig);
+        }
+    }
+
+    Ok(())
 }
 
 async fn load_blanks(opts: LoadBlanks) -> Result<(), Box<dyn Error>> {

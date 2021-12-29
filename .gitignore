@@ -4,3 +4,4 @@ assets
 *.db
 *.db.bak
 fixes
+node_modules

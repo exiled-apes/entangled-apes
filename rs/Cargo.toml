@@ -1,0 +1,17 @@
+[package]
+name = "xapes-entangler"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+borsh = "0.9.1"
+gumdrop = { version = "0.8.0", features = ["default_expr"] }
+mpl-token-metadata = "1.2.5"
+reqwest = "0.11.7"
+rusqlite = "0.26.0"
+serde = "1.0.131"
+solana-client = "1.7.10"
+solana-sdk = "1.7.10"
+spl-associated-token-account = "1.0.3"
+spl-token = "3.2.0"
+tokio = { version = "1", features = ["full"] }

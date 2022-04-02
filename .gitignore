@@ -5,3 +5,4 @@ assets
 *.db.bak
 fixes
 node_modules
+target

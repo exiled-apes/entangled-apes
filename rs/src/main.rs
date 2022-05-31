@@ -37,16 +37,38 @@ async fn rescue_joey(args: Args, opts: RescueJoey) -> Result<(), Box<dyn Error>>
     let data = metadata.data;
     let creators = data.creators.unwrap();
 
-    if creators.len() != 1 {
-        let new_creators = Some(vec![Creator {
-            address: keypair.pubkey(),
-            verified: true,
-            share: 100,
-        }]);
+    if creators.len() == 1 {
+        let new_creators = Some(vec![
+            Creator {
+                address: "GVrbHLmRLTZPCWzQaTEi2DyQCjJEKaxypXJdhE2dTe86".parse()?,
+                verified: false,
+                share: 0,
+            },
+            Creator {
+                address: "Hg5KGxWCwFWCsS5uTbKdjQv6pv21nG5kNwBch3zPKTFq".parse()?,
+                verified: false,
+                share: 65,
+            },
+            Creator {
+                address: "6J81KgSBU1WeURtGk8rGfAfcMzmuinG6xrkns7pgTPxr".parse()?,
+                verified: false,
+                share: 25,
+            },
+            Creator {
+                address: "pitH4RCXUxeS48F9wqk4qTEBDDZtvWhyU6V3WK9ULoM".parse()?,
+                verified: false,
+                share: 5,
+            },
+            Creator {
+                address: "vipreaNkzREYfRD3KfbWLLTcUUEn86jnFGvjDuW38dm".parse()?,
+                verified: false,
+                share: 5,
+            },
+        ]);
 
         let new_data = Data {
             creators: new_creators,
-            seller_fee_basis_points: 9800,
+            seller_fee_basis_points: 500,
             ..data
         };
 

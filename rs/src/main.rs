@@ -17,11 +17,62 @@ async fn main() -> Result<(), Box<dyn Error>> {
     match args.clone().command {
         None => todo!(),
         Some(command) => match command {
+            Command::RescueJoey(opts) => rescue_joey(args, opts).await,
             Command::UpdateCreatorsAndRoyalties(opts) => {
                 update_creators_and_royalties(args, opts).await
             }
         },
     }
+}
+async fn rescue_joey(args: Args, opts: RescueJoey) -> Result<(), Box<dyn Error>> {
+    let rpc = RpcClient::new(args.rpc);
+    let keypair = read_keypair_file(opts.keypair)?;
+    let _ = keypair;
+
+    let mint_address = "2i9xWCkCN8GKiT5nBbgh8MPrjiMqeggDhULBDYGVVLUw".parse()?;
+    let metadata_address = find_metadata_address(mint_address);
+
+    let metadata = rpc.get_account(&metadata_address)?;
+    let metadata = Metadata::deserialize(&mut metadata.data())?;
+    let data = metadata.data;
+    let creators = data.creators.unwrap();
+
+    if creators.len() != 1 {
+        let new_creators = Some(vec![Creator {
+            address: keypair.pubkey(),
+            verified: true,
+            share: 100,
+        }]);
+
+        let new_data = Data {
+            creators: new_creators,
+            seller_fee_basis_points: 9800,
+            ..data
+        };
+
+        let instructions = vec![update_metadata_accounts(
+            mpl_token_metadata::id(),
+            metadata_address,
+            keypair.pubkey(),
+            None,
+            Some(new_data),
+            None,
+        )];
+
+        let signing_keypairs = &[&keypair];
+        let recent_blockhash = rpc.get_latest_blockhash()?;
+        let tx = Transaction::new_signed_with_payer(
+            &instructions,
+            Some(&keypair.pubkey()),
+            signing_keypairs,
+            recent_blockhash,
+        );
+
+        let sig = rpc.send_transaction(&tx)?;
+        eprintln!("{} {}", mint_address.to_string(), sig);
+    }
+
+    Ok(())
 }
 
 async fn update_creators_and_royalties(
@@ -112,10 +163,17 @@ fn default_rpc_url() -> String {
 #[derive(Clone, Debug, Options)]
 enum Command {
     UpdateCreatorsAndRoyalties(UpdateCreatorsAndRoyalties),
+    RescueJoey(RescueJoey),
 }
 
 #[derive(Clone, Debug, Options)]
 struct UpdateCreatorsAndRoyalties {
+    #[options(help = "keypair", meta = "k")]
+    keypair: String,
+}
+
+#[derive(Clone, Debug, Options)]
+struct RescueJoey {
     #[options(help = "keypair", meta = "k")]
     keypair: String,
 }
